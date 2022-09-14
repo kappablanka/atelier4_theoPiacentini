@@ -1,6 +1,4 @@
 from random import *
-import time
-
 
 
 def gen_list_random_int(int_nb: int = 10, int_binf: int = 0, int_bsup: int = 10) -> list:
