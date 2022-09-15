@@ -94,7 +94,7 @@ def perf_extract(funct1: callable, funct2: callable, taille_listes: list[int], n
     for e in taille_listes:
         start_pc_func_1 = time.perf_counter()
         for i in range(nb_exec):
-            funct1(Partie_1.gen_list_random_int(e), random.randint(1, e-1))
+            funct1(Partie_1.gen_list_random_int(e), random.randint(1, e - 1))
         end_pc_func_1 = time.perf_counter()
         elapsed_time_exec_func_1 = end_pc_func_1 - start_pc_func_1
         moy_perf_func_1 = elapsed_time_exec_func_1 / nb_exec
@@ -105,7 +105,7 @@ def perf_extract(funct1: callable, funct2: callable, taille_listes: list[int], n
     for e in taille_listes:
         start_pc_func_2 = time.perf_counter()
         for i in range(nb_exec):
-            funct2(Partie_1.gen_list_random_int(e), random.randint(1, e-1))
+            funct2(Partie_1.gen_list_random_int(e), random.randint(1, e - 1))
         end_pc_func_2 = time.perf_counter()
         elapsed_time_exec_func_2 = end_pc_func_2 - start_pc_func_2
         moy_perf_func_2 = elapsed_time_exec_func_2 / nb_exec
@@ -194,11 +194,14 @@ def tri_fusion(liste_t: list) -> list:
 print(tri_fusion([3, 2, 1, 0]))
 
 
-def perf_tri(funct1: callable, funct2: callable, taille_listes: list[int], nb_exec: int, config: int=1) -> (list, list):
+def perf_tri(funct1: callable, funct2: callable, taille_listes: list[int], nb_exec: int, config: int = 1) -> (
+        list, list):
     """
     Permet de calculer le temps d’exécution moyen des deux fonctions
     de mélange (mix_list et random.shuffle) passées en paramètre dans une même configuration, c’est-à-
     dire pour une même liste
+    :param config:
+    :type config:
     :param funct1:
     :type funct1: callable
     :param funct2:
@@ -217,11 +220,11 @@ def perf_tri(funct1: callable, funct2: callable, taille_listes: list[int], nb_ex
         start_pc_func_1 = time.perf_counter()
         for i in range(nb_exec):
             if config == 1:
-                funct2(Partie_1.gen_list_random_int(e))
+                funct1(Partie_1.gen_list_random_int(e))
             elif config == 2:
-                funct2(sorted(Partie_1.gen_list_random_int(e)))
+                funct1(sorted(Partie_1.gen_list_random_int(e)))
             else:
-                funct2(sorted(Partie_1.gen_list_random_int(e), reverse=True))
+                funct1(sorted(Partie_1.gen_list_random_int(e), reverse=True))
         end_pc_func_1 = time.perf_counter()
         elapsed_time_exec_func_1 = end_pc_func_1 - start_pc_func_1
         moy_perf_func_1 = elapsed_time_exec_func_1 / nb_exec
@@ -245,6 +248,7 @@ def perf_tri(funct1: callable, funct2: callable, taille_listes: list[int], nb_ex
 
     return tab_resultats_func1, tab_resultats_func2
 
+
 print("")
 print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10))
 print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=2))
@@ -254,4 +258,27 @@ print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=3))
 # afficher les resultat pyplot
 
 
+def affiche_resultat_test_tri(resultat1: tuple, resultat2: tuple, resultat3: tuple):
+    """
 
+    :param resultat1:
+    :type resultat1:
+    :param resultat2:
+    :type resultat2:
+    :param resultat3:
+    :type resultat3:
+    :return:
+    :rtype:
+    """
+    x_axis_list = (10, 100, 1000)
+    fig, ax = plt.subplots()
+    ax.plot(x_axis_list, resultat1[0], 'bo-', label='extract elements liste')
+    ax.plot(x_axis_list, resultat1[1], 'r*-', label='random.sample')
+    ax.plot(x_axis_list, resultat2[2], 'bo-', label='extract elements liste')
+    ax.plot(x_axis_list, resultat2[3], 'r*-', label='random.sample')
+    ax.plot(x_axis_list, resultat3[4], 'bo-', label='extract elements liste')
+    ax.plot(x_axis_list, resultat3[5], 'r*-', label='random.sample')
+    ax.set(xlabel='nombre de liste', ylabel='Performances moyenne',
+           title='Fonctions identité, cube et carré')
+    ax.legend(loc='upper center', shadow=True, fontsize='x-large')
+    plt.show()
