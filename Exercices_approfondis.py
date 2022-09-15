@@ -299,7 +299,7 @@ def is_sorted(liste: list):
     """
     est_triee = True
     for i in range(1, len(liste)):
-        if liste[i-1] > liste[i]:
+        if liste[i - 1] > liste[i]:
             est_triee = False
     return est_triee
 
@@ -328,20 +328,79 @@ def tri_par_insertion(liste: list):
     for i in range(len(liste)):
         x = liste[i]
         j = i
-        while j > 0 and liste[j-1] > x:
+        while j > 0 and liste[j - 1] > x:
             liste[j] = liste[j - 1]
-            j = j-1
+            j = j - 1
         liste[j] = x
     return liste
 
 
 def tri_selection(liste_t: list, n: int):
-    for i in range(n-1):
+    for i in range(n - 1):
         mon_min = i
-        for j in range(i+1, n):
+        for j in range(i + 1, n):
             if liste_t[j] < liste_t[mon_min]:
                 mon_min = j
         if mon_min != i:
             temp = liste_t[i]
             liste_t[i] = liste_t[mon_min]
             liste_t[mon_min] = temp
+    return liste_t
+
+
+def tri_par_bulle(liste_t: list):
+    """
+
+    :return:
+    :rtype:
+    """
+    for i in range(len(liste_t) - 1, 0, -1):
+        tableau_trie = True
+        for j in range(i):
+            if liste_t[j + 1] < liste_t[j]:
+                temp = liste_t[j + 1]
+                liste_t[j + 1] = liste_t[j]
+                liste_t[j] = temp
+                tableau_trie = False
+            if tableau_trie:
+                return liste_t
+
+
+# Tri fusion déjà implémenter plus haut !
+
+
+def radix_sort(list_to_sort: list):
+    """
+    param list_to_sort:
+    :type list_to_sort:
+    :return:
+    :rtype:
+    """
+    len_liste_to_sorte = []
+    list_copier = list_to_sort.copy()
+    for e in list_to_sort:
+        len_liste_to_sorte.append(len(str(e)))
+    for i in range(0, max(len_liste_to_sorte)):
+        radix_order_sort(list_copier, i)
+        print(list_copier)
+    return list_copier
+
+
+def radix_order_sort(list_to_sort: list, ordre: int):
+    """
+    param list_to_sort:
+    :type list_to_sort:
+    :return:
+    :rtype:
+    """
+    copie_liste = list_to_sort
+    for i in range(len(copie_liste)):
+        copie_liste[i] = copie_liste[i] % 10**ordre - copie_liste[i] % 10**(ordre-1)
+
+    return sorted(copie_liste)
+
+
+print(radix_order_sort([30, 2, 1], 0))
+print(radix_order_sort([30, 2, 1], 1))
+
+
