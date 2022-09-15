@@ -272,13 +272,76 @@ def affiche_resultat_test_tri(resultat1: tuple, resultat2: tuple, resultat3: tup
     """
     x_axis_list = (10, 100, 1000)
     fig, ax = plt.subplots()
-    ax.plot(x_axis_list, resultat1[0], 'bo-', label='extract elements liste')
-    ax.plot(x_axis_list, resultat1[1], 'r*-', label='random.sample')
-    ax.plot(x_axis_list, resultat2[2], 'bo-', label='extract elements liste')
-    ax.plot(x_axis_list, resultat2[3], 'r*-', label='random.sample')
-    ax.plot(x_axis_list, resultat3[4], 'bo-', label='extract elements liste')
-    ax.plot(x_axis_list, resultat3[5], 'r*-', label='random.sample')
+    ax.plot(x_axis_list, resultat1[0], 'tab:blue', label='mon_tri sur liste hasards')
+    ax.plot(x_axis_list, resultat1[1], 'tab:purple', label='sorted sur liste hasards ')
+    ax.plot(x_axis_list, resultat2[0], 'tab:cyan', label='mon_tri sur liste trié')
+    ax.plot(x_axis_list, resultat2[1], 'lightcoral', label='sorted sur liste trié')
+    ax.plot(x_axis_list, resultat3[0], 'indianred', label='mon_tri sur liste trié reverse')
+    ax.plot(x_axis_list, resultat3[1], 'firebrick', label='sorted sur liste  trié reverse')
     ax.set(xlabel='nombre de liste', ylabel='Performances moyenne',
            title='Fonctions identité, cube et carré')
     ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     plt.show()
+
+
+affiche_resultat_test_tri(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=1),
+                          perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=2),
+                          perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=3))
+
+
+def is_sorted(liste: list):
+    """
+
+    :param liste:
+    :type liste:
+    :return:
+    :rtype:
+    """
+    est_triee = True
+    for i in range(1, len(liste)):
+        if liste[i-1] > liste[i]:
+            est_triee = False
+    return est_triee
+
+
+def tri_stupide(liste: list):
+    """
+    Tri une liste en la mixant jusqu'à ce qu'elle soit triée
+    :param liste:
+    :type liste:
+    :return:
+    :rtype:
+    """
+    while not is_sorted(liste):
+        liste = Partie_1.mix_list(liste)
+    return liste
+
+
+def tri_par_insertion(liste: list):
+    """
+    Aussi appelé tri du joueur de carte
+    :param liste:
+    :type liste:
+    :return:
+    :rtype:
+    """
+    for i in range(len(liste)):
+        x = liste[i]
+        j = i
+        while j > 0 and liste[j-1] > x:
+            liste[j] = liste[j - 1]
+            j = j-1
+        liste[j] = x
+    return liste
+
+
+def tri_selection(liste_t: list, n: int):
+    for i in range(n-1):
+        mon_min = i
+        for j in range(i+1, n):
+            if liste_t[j] < liste_t[mon_min]:
+                mon_min = j
+        if mon_min != i:
+            temp = liste_t[i]
+            liste_t[i] = liste_t[mon_min]
+            liste_t[mon_min] = temp
