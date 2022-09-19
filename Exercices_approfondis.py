@@ -370,7 +370,6 @@ def tri_par_bulle(liste_t: list):
 
 # Tri fusion déjà implémenter plus haut !
 
-
 def radix_sort(list_to_sort: list):
     """
     param list_to_sort:
@@ -378,21 +377,17 @@ def radix_sort(list_to_sort: list):
     :return:
     :rtype:
     """
-    tab_ordre = []
     copie_tableau = list_to_sort.copy()
+    max = 1
     for e in list_to_sort:
-        tab_ordre.append(len(str(e)))
-    for i in range(0, max(tab_ordre)):
+        while e // 10 ** max > 0:
+            max += 1
+    for i in range(0, max):
         copie_tableau = radix_order_sort(copie_tableau, i)
     return copie_tableau
 
-
 def chiffre_ordre(nombre, ordre):
-    if len(str(nombre)) > ordre:
-        return int(str(nombre)[-ordre-1])
-    else:
-        return 0
-
+    return (nombre % 10 ** (ordre + 1) - nombre % 10 ** ordre) // 10 ** ordre
 
 def radix_order_sort(list_to_sort: list, ordre: int):
     liste_boite = []
@@ -450,7 +445,8 @@ def affiche_resultat_test_tri_tous():
     """
     resultat = [perf_tri_tous(tri_par_insertion, [10, 100, 1000], 10),
                 perf_tri_tous(tri_selection, [10, 100, 1000], 10), perf_tri_tous(tri_par_bulle, [10, 100, 1000], 10),
-                perf_tri_tous(tri_fusion, [10, 100, 1000], 10), perf_tri_tous(radix_sort, [10, 100, 1000], 10)]
+                perf_tri_tous(tri_fusion, [10, 100, 1000], 10),perf_tri_tous(radix_sort, [10, 100, 1000], 10),
+                perf_tri_tous(sorted, [10, 100, 1000], 10)]
 
     x_axis_list = (10, 100, 1000)
     fig, ax = plt.subplots()
@@ -458,11 +454,16 @@ def affiche_resultat_test_tri_tous():
     ax.plot(x_axis_list, resultat[1], 'g', label='tri_selection')
     ax.plot(x_axis_list, resultat[2], 'r', label='tri_par_bulle')
     ax.plot(x_axis_list, resultat[3], 'c', label='tri_fusion')
-    ax.plot(x_axis_list, resultat[4], 'm', label='radix_sort')
+    ax.plot(x_axis_list, resultat[4], 'm', label='radix')
+    ax.plot(x_axis_list, resultat[5], 'k', label='sorted')
     ax.set(xlabel='nombre de liste', ylabel='Performances moyenne',
            title='Fonctions identité, cube et carré')
     ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     plt.show()
+
+
+
+
 
 
 def testeur_de_fonction_aux_petits_oignons(funct, jeu_de_tests, arg_nb=1):
@@ -487,7 +488,6 @@ def testeur_de_fonction_aux_petits_oignons(funct, jeu_de_tests, arg_nb=1):
 JDT_DICO = {0: ([3, 2, 1], [1, 2, 3]),
             1: ([300, 20, 1], [1, 20, 300]),
             2: ([30000, 20, 3], [3, 20, 30000])}
-
 
 testeur_de_fonction_aux_petits_oignons(tri_fusion, JDT_DICO, arg_nb=1)
 testeur_de_fonction_aux_petits_oignons(tri_selection, JDT_DICO, arg_nb=1)
