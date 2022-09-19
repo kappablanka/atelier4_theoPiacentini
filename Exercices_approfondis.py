@@ -69,7 +69,7 @@ def perf_mix(funct1: callable, funct2: callable, taille_listes: list[int], nb_ex
     return tab_resultats_func1, tab_resultats_func2
 
 
-print(perf_mix(Partie_1.mix_list, random.shuffle, [10, 100, 1000], 10))
+# print(perf_mix(Partie_1.mix_list, random.shuffle, [10, 100, 1000], 10))
 
 
 def perf_extract(funct1: callable, funct2: callable, taille_listes: list[int], nb_exec: int) -> (list, list):
@@ -191,9 +191,6 @@ def tri_fusion(liste_t: list) -> list:
         return fusion(tri_fusion(liste_t[:milieu]), tri_fusion(liste_t[milieu:]))
 
 
-print(tri_fusion([3, 2, 1, 0]))
-
-
 def perf_tri(funct1: callable, funct2: callable, taille_listes: list[int], nb_exec: int, config: int = 1) -> (
         list, list):
     """
@@ -249,10 +246,10 @@ def perf_tri(funct1: callable, funct2: callable, taille_listes: list[int], nb_ex
     return tab_resultats_func1, tab_resultats_func2
 
 
-print("")
-print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10))
-print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=2))
-print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=3))
+# print("")
+# print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10))
+# print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=2))
+# print(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=3))
 
 
 # afficher les resultat pyplot
@@ -284,9 +281,9 @@ def affiche_resultat_test_tri(resultat1: tuple, resultat2: tuple, resultat3: tup
     plt.show()
 
 
-affiche_resultat_test_tri(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=1),
-                          perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=2),
-                          perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=3))
+# affiche_resultat_test_tri(perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=1),
+#                          perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=2),
+#                          perf_tri(tri_fusion, sorted, [10, 100, 1000], 10, config=3))
 
 
 def is_sorted(liste: list):
@@ -335,7 +332,8 @@ def tri_par_insertion(liste: list):
     return liste
 
 
-def tri_selection(liste_t: list, n: int):
+def tri_selection(liste_t: list):
+    n = len(liste_t)
     for i in range(n - 1):
         mon_min = i
         for j in range(i + 1, n):
@@ -376,31 +374,92 @@ def radix_sort(list_to_sort: list):
     :return:
     :rtype:
     """
-    len_liste_to_sorte = []
-    list_copier = list_to_sort.copy()
+    tab_ordre = []
+    copie_tableau = list_to_sort.copy()
     for e in list_to_sort:
-        len_liste_to_sorte.append(len(str(e)))
-    for i in range(0, max(len_liste_to_sorte)):
-        radix_order_sort(list_copier, i)
-        print(list_copier)
-    return list_copier
+        tab_ordre.append(len(str(e)))
+    for i in range(0, max(tab_ordre)):
+        copie_tableau = radix_order_sort(copie_tableau, i)
+    return copie_tableau
+
+
+def chiffre_ordre(nombre, ordre):
+    if len(str(nombre)) >= ordre + 1:
+        return int(str(nombre)[-ordre])
+    else:
+        return 0
 
 
 def radix_order_sort(list_to_sort: list, ordre: int):
+    liste_boite = []
+    for i in range(10):
+        liste_boite.append([])
+    liste_trie = []
+    for e in list_to_sort:
+        liste_boite[chiffre_ordre(e, ordre)].append(e)
+    for _ in liste_boite:
+        liste_trie += liste_trie
+    return liste_trie
+
+
+def perf_tri_tous(funct1: callable, taille_listes: list[int], nb_exec: int, config: int = 1) -> (
+        list):
     """
-    param list_to_sort:
-    :type list_to_sort:
+    Permet de calculer le temps d’exécution moyen des deux fonctions
+    de mélange (mix_list et random.shuffle) passées en paramètre dans une même configuration, c’est-à-
+    dire pour une même liste
+    :param config:
+    :type config:
+    :param funct1:
+    :type funct1: callable
+    :param taille_listes:
+    :type taille_listes: list
+    :param nb_exec:
+    :type nb_exec: int
     :return:
     :rtype:
     """
-    copie_liste = list_to_sort
-    for i in range(len(copie_liste)):
-        copie_liste[i] = copie_liste[i] % 10**ordre - copie_liste[i] % 10**(ordre-1)
 
-    return sorted(copie_liste)
+    tab_resultats_func1 = []
+
+    for e in taille_listes:
+        start_pc_func_1 = time.perf_counter()
+        for i in range(nb_exec):
+            if config == 1:
+                funct1(Partie_1.gen_list_random_int(e))
+            elif config == 2:
+                funct1(sorted(Partie_1.gen_list_random_int(e)))
+            else:
+                funct1(sorted(Partie_1.gen_list_random_int(e), reverse=True))
+        end_pc_func_1 = time.perf_counter()
+        elapsed_time_exec_func_1 = end_pc_func_1 - start_pc_func_1
+        moy_perf_func_1 = elapsed_time_exec_func_1 / nb_exec
+        tab_resultats_func1.append(moy_perf_func_1)
+
+    return tab_resultats_func1
 
 
-print(radix_order_sort([30, 2, 1], 0))
-print(radix_order_sort([30, 2, 1], 1))
+def affiche_resultat_test_tri_tous():
+    """
+    :return:
+    :rtype:
+    """
+    resultat = [perf_tri_tous(tri_par_insertion, [10, 100, 1000], 10),
+                perf_tri_tous(tri_selection, [10, 100, 1000], 10), perf_tri_tous(tri_par_bulle, [10, 100, 1000], 10),
+                perf_tri_tous(tri_fusion, [10, 100, 1000], 10), perf_tri_tous(radix_sort, [10, 100, 1000], 10)]
+    print(resultat)
+
+    x_axis_list = (10, 100, 1000)
+    fig, ax = plt.subplots()
+    ax.plot(x_axis_list, resultat[0], 'b', label='tri_par_insertion')
+    ax.plot(x_axis_list, resultat[1], 'g', label='tri_selection')
+    ax.plot(x_axis_list, resultat[2], 'r', label='tri_par_bulle')
+    ax.plot(x_axis_list, resultat[3], 'c', label='tri_fusion')
+    ax.plot(x_axis_list, resultat[4], 'm', label='radix_sort')
+    ax.set(xlabel='nombre de liste', ylabel='Performances moyenne',
+           title='Fonctions identité, cube et carré')
+    ax.legend(loc='upper center', shadow=True, fontsize='x-large')
+    plt.show()
 
 
+affiche_resultat_test_tri_tous()
