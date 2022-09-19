@@ -35,7 +35,7 @@ def mix_list(liste: list) -> list:
     liste_melanger = []
     longueur_liste = len(liste)
     for i in range(longueur_liste):
-        index_rand = randint(0, longueur_liste-i-1)
+        index_rand = randint(0, longueur_liste - i - 1)
         liste_melanger.append(liste_copie[index_rand])
         liste_copie.pop(index_rand)
     return liste_melanger
@@ -56,23 +56,23 @@ def testeur_de_fonction(funct, jeu_de_tests, arg_nb=1):
 
 
 JDT1 = ([0, 1, 2],
-       [0, 1, 2, 3])
+        [0, 1, 2, 3])
 testeur_de_fonction(mix_list, JDT1)
 
 
 def choose_element_list(list_which_to_choose: list):
     """
-    Prends e nparamètre une liste et retourne un de ses élements au hazard
+    Prends en paramètre une liste et retourne un de ses élements au hazard
     :param list_which_to_choose:
     :type list_which_to_choose:
     :return:
     :rtype:
     """
-    return list_which_to_choose[randint(0, len(list_which_to_choose)-1)]
+    return list_which_to_choose[randint(0, len(list_which_to_choose) - 1)]
 
 
 JDT1 = ([0, 1, 2],
-       [0, 1, 2, 3])
+        [0, 1, 2, 3])
 
 testeur_de_fonction(choose_element_list, JDT1)
 
@@ -90,7 +90,7 @@ def extract_elements_list(list_in_which_to_choose: list, int_nbr_of_elements_to_
     elt_choisis = []
     liste_copie = list_in_which_to_choose
     for i in range(int_nbr_of_elements_to_extract):
-        elt_random = randint(0, len(liste_copie)-1)
+        elt_random = randint(0, len(liste_copie) - 1)
         elt_choisis.append(liste_copie[elt_random])
         liste_copie.pop(elt_random)
     return elt_choisis
@@ -100,4 +100,3 @@ JDT2 = (([0, 1, 2], 2),
         ([0, 1, 2, 3], 1))
 
 testeur_de_fonction(extract_elements_list, JDT2, arg_nb=2)
-

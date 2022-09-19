@@ -6,6 +6,11 @@ import random
 
 
 def test_py_plot():
+    """
+    exemple du pdf
+    :return:
+    :rtype:
+    """
     # Ici on décrit les abscisses
     # Entre 0 et 5 en 10 points
     x_axis_list = np.arange(0, 1000, 10)
@@ -160,6 +165,7 @@ def affiche_resultat_test_extract(resultat: tuple):
 
 def fusion(liste_a: list, liste_b: list) -> list:
     """
+    Implémentation du tri par fusion : partie fusionnant deux listes deja trié
     :param liste_a:
     :type liste_a:
     :param liste_b:
@@ -179,6 +185,7 @@ def fusion(liste_a: list, liste_b: list) -> list:
 
 def tri_fusion(liste_t: list) -> list:
     """
+    Implémentation du tri fusion
     :param liste_t:
     :type liste_t:
     :return:
@@ -257,7 +264,7 @@ def perf_tri(funct1: callable, funct2: callable, taille_listes: list[int], nb_ex
 
 def affiche_resultat_test_tri(resultat1: tuple, resultat2: tuple, resultat3: tuple):
     """
-
+    affiche les resultat de la fonction test tri grace à pyplot
     :param resultat1:
     :type resultat1:
     :param resultat2:
@@ -288,7 +295,7 @@ def affiche_resultat_test_tri(resultat1: tuple, resultat2: tuple, resultat3: tup
 
 def is_sorted(liste: list):
     """
-
+    Vérifie si une liste est triée
     :param liste:
     :type liste:
     :return:
@@ -317,7 +324,7 @@ def tri_stupide(liste: list):
 
 def tri_par_insertion(liste: list):
     """
-    Aussi appelé tri du joueur de carte
+    Implémentation du tri par insertion.
     :param liste:
     :type liste:
     :return:
@@ -335,6 +342,13 @@ def tri_par_insertion(liste: list):
 
 
 def tri_selection(liste_t: list):
+    """
+    Implémentation du tri par sélection.
+    :param liste_t:
+    :type liste_t:
+    :return:
+    :rtype:
+    """
     n = len(liste_t)
     liste_copie = liste_t.copy()
     for i in range(n - 1):
@@ -351,7 +365,7 @@ def tri_selection(liste_t: list):
 
 def tri_par_bulle(liste_t: list):
     """
-
+    Implémentation du tri par bulle.
     :return:
     :rtype:
     """
@@ -372,6 +386,7 @@ def tri_par_bulle(liste_t: list):
 
 def radix_sort(list_to_sort: list):
     """
+    implémentation de radix sort
     param list_to_sort:
     :type list_to_sort:
     :return:
@@ -388,10 +403,28 @@ def radix_sort(list_to_sort: list):
 
 
 def chiffre_ordre(nombre, ordre):
+    """
+    Donne le chiffre d'un certain ordre d'un nombre
+    :param nombre:
+    :type nombre:
+    :param ordre:
+    :type ordre:
+    :return:
+    :rtype:
+    """
     return (nombre % 10 ** (ordre + 1) - nombre % 10 ** ordre) // 10 ** ordre
 
 
 def radix_order_sort(list_to_sort: list, ordre: int):
+    """
+    Trie une liste à partir des chiffres d'un ordre précis
+    :param list_to_sort:
+    :type list_to_sort:
+    :param ordre:
+    :type ordre:
+    :return:
+    :rtype:
+    """
     liste_boite = []
     for i in range(10):
         liste_boite.append([])
@@ -406,9 +439,7 @@ def radix_order_sort(list_to_sort: list, ordre: int):
 def perf_tri_tous(funct1: callable, taille_listes: list[int], nb_exec: int, config: int = 1) -> (
         list):
     """
-    Permet de calculer le temps d’exécution moyen des deux fonctions
-    de mélange (mix_list et random.shuffle) passées en paramètre dans une même configuration, c’est-à-
-    dire pour une même liste
+    Permet de calculer le temps d’exécution moyen des fonctions de tris
     :param config:
     :type config:
     :param funct1:
@@ -442,6 +473,7 @@ def perf_tri_tous(funct1: callable, taille_listes: list[int], nb_exec: int, conf
 
 def affiche_resultat_test_tri_tous():
     """
+    Affiche le résultat du test des fonctions tri
     :return:
     :rtype:
     """
