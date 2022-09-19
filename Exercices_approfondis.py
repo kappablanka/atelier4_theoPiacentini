@@ -378,16 +378,18 @@ def radix_sort(list_to_sort: list):
     :rtype:
     """
     copie_tableau = list_to_sort.copy()
-    max = 1
+    mon_max = 1
     for e in list_to_sort:
-        while e // 10 ** max > 0:
-            max += 1
-    for i in range(0, max):
+        while e // 10 ** mon_max > 0:
+            mon_max += 1
+    for i in range(0, mon_max):
         copie_tableau = radix_order_sort(copie_tableau, i)
     return copie_tableau
 
+
 def chiffre_ordre(nombre, ordre):
     return (nombre % 10 ** (ordre + 1) - nombre % 10 ** ordre) // 10 ** ordre
+
 
 def radix_order_sort(list_to_sort: list, ordre: int):
     liste_boite = []
@@ -445,7 +447,7 @@ def affiche_resultat_test_tri_tous():
     """
     resultat = [perf_tri_tous(tri_par_insertion, [10, 100, 1000], 10),
                 perf_tri_tous(tri_selection, [10, 100, 1000], 10), perf_tri_tous(tri_par_bulle, [10, 100, 1000], 10),
-                perf_tri_tous(tri_fusion, [10, 100, 1000], 10),perf_tri_tous(radix_sort, [10, 100, 1000], 10),
+                perf_tri_tous(tri_fusion, [10, 100, 1000], 10), perf_tri_tous(radix_sort, [10, 100, 1000], 10),
                 perf_tri_tous(sorted, [10, 100, 1000], 10)]
 
     x_axis_list = (10, 100, 1000)
@@ -460,10 +462,6 @@ def affiche_resultat_test_tri_tous():
            title='Fonctions identité, cube et carré')
     ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     plt.show()
-
-
-
-
 
 
 def testeur_de_fonction_aux_petits_oignons(funct, jeu_de_tests, arg_nb=1):
