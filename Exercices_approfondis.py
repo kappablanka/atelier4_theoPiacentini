@@ -384,8 +384,8 @@ def radix_sort(list_to_sort: list):
 
 
 def chiffre_ordre(nombre, ordre):
-    if len(str(nombre)) >= ordre + 1:
-        return int(str(nombre)[-ordre])
+    if len(str(nombre)) > ordre:
+        return int(str(nombre)[-ordre-1])
     else:
         return 0
 
@@ -397,8 +397,8 @@ def radix_order_sort(list_to_sort: list, ordre: int):
     liste_trie = []
     for e in list_to_sort:
         liste_boite[chiffre_ordre(e, ordre)].append(e)
-    for _ in liste_boite:
-        liste_trie += liste_trie
+    for e in liste_boite:
+        liste_trie += e
     return liste_trie
 
 
@@ -447,7 +447,6 @@ def affiche_resultat_test_tri_tous():
     resultat = [perf_tri_tous(tri_par_insertion, [10, 100, 1000], 10),
                 perf_tri_tous(tri_selection, [10, 100, 1000], 10), perf_tri_tous(tri_par_bulle, [10, 100, 1000], 10),
                 perf_tri_tous(tri_fusion, [10, 100, 1000], 10), perf_tri_tous(radix_sort, [10, 100, 1000], 10)]
-    print(resultat)
 
     x_axis_list = (10, 100, 1000)
     fig, ax = plt.subplots()
@@ -461,5 +460,36 @@ def affiche_resultat_test_tri_tous():
     ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     plt.show()
 
+
+def testeur_de_fonction_aux_petits_oignons(funct, jeu_de_tests, arg_nb=1):
+    """
+    Fonction permettant de tester d'autres fonctions
+    :return: void
+    """
+    if arg_nb == 1:
+        for k, v in jeu_de_tests.items():
+            flag_correct = funct(v[0]) == v[1]
+            if flag_correct:
+                mot_correct = "CORRECT"
+            else:
+                mot_correct = "FAUX"
+            print(f"{funct.__name__}({v[0]}) = {funct(v[0])}, le resultat est {mot_correct}")
+    elif arg_nb == 2:
+        for k, v in jeu_de_tests.items:
+            print(f"{funct.__name__}({k[0]}, {k[1]}) = {funct(k[0], k[1])}")
+    print("\n")
+
+
+JDT_DICO = {0: ([3, 2, 1], [1, 2, 3]),
+            1: ([300, 20, 1], [1, 20, 300]),
+            2: ([30000, 20, 3], [3, 20, 30000])}
+
+
+testeur_de_fonction_aux_petits_oignons(tri_fusion, JDT_DICO, arg_nb=1)
+testeur_de_fonction_aux_petits_oignons(tri_selection, JDT_DICO, arg_nb=1)
+testeur_de_fonction_aux_petits_oignons(tri_stupide, JDT_DICO, arg_nb=1)
+testeur_de_fonction_aux_petits_oignons(tri_par_bulle, JDT_DICO, arg_nb=1)
+testeur_de_fonction_aux_petits_oignons(tri_par_insertion, JDT_DICO, arg_nb=1)
+testeur_de_fonction_aux_petits_oignons(radix_sort, JDT_DICO, arg_nb=1)
 
 affiche_resultat_test_tri_tous()
