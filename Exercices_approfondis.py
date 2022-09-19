@@ -309,9 +309,10 @@ def tri_stupide(liste: list):
     :return:
     :rtype:
     """
-    while not is_sorted(liste):
-        liste = Partie_1.mix_list(liste)
-    return liste
+    liste_copie = liste.copy()
+    while not is_sorted(liste_copie):
+        liste_copie = Partie_1.mix_list(liste_copie)
+    return liste_copie
 
 
 def tri_par_insertion(liste: list):
@@ -322,28 +323,30 @@ def tri_par_insertion(liste: list):
     :return:
     :rtype:
     """
+    liste_copie = liste.copy()
     for i in range(len(liste)):
-        x = liste[i]
+        x = liste_copie[i]
         j = i
-        while j > 0 and liste[j - 1] > x:
-            liste[j] = liste[j - 1]
+        while j > 0 and liste_copie[j - 1] > x:
+            liste_copie[j] = liste_copie[j - 1]
             j = j - 1
-        liste[j] = x
-    return liste
+        liste_copie[j] = x
+    return liste_copie
 
 
 def tri_selection(liste_t: list):
     n = len(liste_t)
+    liste_copie = liste_t.copy()
     for i in range(n - 1):
         mon_min = i
         for j in range(i + 1, n):
-            if liste_t[j] < liste_t[mon_min]:
+            if liste_copie[j] < liste_copie[mon_min]:
                 mon_min = j
         if mon_min != i:
-            temp = liste_t[i]
-            liste_t[i] = liste_t[mon_min]
-            liste_t[mon_min] = temp
-    return liste_t
+            temp = liste_copie[i]
+            liste_copie[i] = liste_copie[mon_min]
+            liste_copie[mon_min] = temp
+    return liste_copie
 
 
 def tri_par_bulle(liste_t: list):
@@ -352,16 +355,17 @@ def tri_par_bulle(liste_t: list):
     :return:
     :rtype:
     """
-    for i in range(len(liste_t) - 1, 0, -1):
+    liste_copie = liste_t.copy()
+    for i in range(len(liste_copie) - 1, 0, -1):
         tableau_trie = True
         for j in range(i):
-            if liste_t[j + 1] < liste_t[j]:
-                temp = liste_t[j + 1]
-                liste_t[j + 1] = liste_t[j]
-                liste_t[j] = temp
+            if liste_copie[j + 1] < liste_copie[j]:
+                temp = liste_copie[j + 1]
+                liste_copie[j + 1] = liste_copie[j]
+                liste_copie[j] = temp
                 tableau_trie = False
             if tableau_trie:
-                return liste_t
+                return liste_copie
 
 
 # Tri fusion déjà implémenter plus haut !
