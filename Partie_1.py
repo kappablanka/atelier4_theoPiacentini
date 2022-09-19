@@ -25,7 +25,7 @@ print(liste_aleatoire)
 
 def mix_list(liste: list) -> list:
     """
-    Prends une liste en paramètre et retourne la liste mélanger aléhatoirement
+    Prends une liste en paramètre et retourne la liste mélanger aléatoirement
     :param liste:
     :type liste: list
     :return:
@@ -79,7 +79,7 @@ testeur_de_fonction(choose_element_list, JDT1)
 
 def extract_elements_list(list_in_which_to_choose: list, int_nbr_of_elements_to_extract: int) -> list:
     """
-    Renvoie un certain nombre d'élements choisis aux hasards dans une liste
+    Renvoie un certain nombre d'éléments choisis aux hasards dans une liste
     :param list_in_which_to_choose:
     :type list_in_which_to_choose:
     :param int_nbr_of_elements_to_extract:

@@ -357,9 +357,7 @@ def tri_selection(liste_t: list):
             if liste_copie[j] < liste_copie[mon_min]:
                 mon_min = j
         if mon_min != i:
-            temp = liste_copie[i]
-            liste_copie[i] = liste_copie[mon_min]
-            liste_copie[mon_min] = temp
+            liste_copie[i], liste_copie[mon_min] = liste_copie[mon_min], liste_copie[i]
     return liste_copie
 
 
@@ -374,9 +372,7 @@ def tri_par_bulle(liste_t: list):
         tableau_trie = True
         for j in range(i):
             if liste_copie[j + 1] < liste_copie[j]:
-                temp = liste_copie[j + 1]
-                liste_copie[j + 1] = liste_copie[j]
-                liste_copie[j] = temp
+                liste_copie[j + 1], liste_copie[j] = liste_copie[j], liste_copie[j + 1]
                 tableau_trie = False
             if tableau_trie:
                 return liste_copie
@@ -425,9 +421,7 @@ def radix_order_sort(list_to_sort: list, ordre: int):
     :return:
     :rtype:
     """
-    liste_boite = []
-    for i in range(10):
-        liste_boite.append([])
+    liste_boite = [[], [], [], [], [], [], [], [], [], []]
     liste_trie = []
     for e in list_to_sort:
         liste_boite[chiffre_ordre(e, ordre)].append(e)
@@ -458,7 +452,7 @@ def perf_tri_tous(funct1: callable, taille_listes: list[int], nb_exec: int, conf
         start_pc_func_1 = time.perf_counter()
         for i in range(nb_exec):
             if config == 1:
-                funct1(Partie_1.gen_list_random_int(e))
+                funct1(Partie_1.gen_list_random_int(e, 0, 20))
             elif config == 2:
                 funct1(sorted(Partie_1.gen_list_random_int(e)))
             else:
@@ -478,8 +472,10 @@ def affiche_resultat_test_tri_tous():
     :rtype:
     """
     resultat = [perf_tri_tous(tri_par_insertion, [10, 100, 1000], 10),
-                perf_tri_tous(tri_selection, [10, 100, 1000], 10), perf_tri_tous(tri_par_bulle, [10, 100, 1000], 10),
-                perf_tri_tous(tri_fusion, [10, 100, 1000], 10), perf_tri_tous(radix_sort, [10, 100, 1000], 10),
+                perf_tri_tous(tri_selection, [10, 100, 1000], 10),
+                perf_tri_tous(tri_par_bulle, [10, 100, 1000], 10),
+                perf_tri_tous(tri_fusion, [10, 100, 1000], 10),
+                perf_tri_tous(radix_sort, [10, 100, 1000], 10),
                 perf_tri_tous(sorted, [10, 100, 1000], 10)]
 
     x_axis_list = (10, 100, 1000)
